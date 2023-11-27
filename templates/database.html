@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>БД "Больница"</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/database.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for table_name in table_names %}
+                <li class="nav-item">
+                    <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ table_name }}-tab" data-toggle="tab" href="#{{ table_name }}" role="tab" aria-controls="{{ table_name }}" aria-selected="{{ loop.first }}">{{ table_name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            {% for table_name in table_names %}
+                <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ table_name }}" role="tabpanel" aria-labelledby="{{ table_name }}-tab">
+                {% if table_contents[table_name] %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {% for column_name in table_contents[table_name][0].cursor_description %}
+                                    <th>{{ column_name[0] }}</th>
+                                {% endfor %}
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in table_contents[table_name] %}
+                                <tr>
+                                    {% for value in row %}
+                                    <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Нет данных для таблицы {{ table_name }}.</p>
+                {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <form method="POST" action="/api/edit_table" target="_blank">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <!-- Контент модального окна для редактирования -->
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/static/table_edit.js"></script>
+</body>
+</html>
