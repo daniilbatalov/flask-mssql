@@ -64,6 +64,24 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 500px;
     text-align: center;
+    margin: auto;
+}
+.delete-row-button {
+    position: relative;
+    width: 50px;
+}
+
+.button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.delete-row-button:hover .button-container {
+    opacity: 1;
 }

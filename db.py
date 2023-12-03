@@ -24,8 +24,8 @@ def connect_server(ip: str, port: str, driver: str, db_name: str, uid: str, pass
         sqlstate = ex.args[0]
         if sqlstate == '28000':
             raise LoginException("Неверный пароль для пользователя ", {"login": uid,
-                                                                      "time": datetime.datetime.now().strftime(
-                                                                          "%d/%m/%Y, %H:%M:%S")})
+                                                                       "time": datetime.datetime.now().strftime(
+                                                                           "%d/%m/%Y, %H:%M:%S")})
 
 
 def execute_sql(connection: odbc.Connection, query: str) -> list:
@@ -35,6 +35,15 @@ def execute_sql(connection: odbc.Connection, query: str) -> list:
     cursor.close()
     return listres
 
+
+def fetch_sql(connection: odbc.Connection, query: str):
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        return 'Ok'
+    except Exception as e:
+        return {str(e)}
 
 # def auth_user(uid: str, pwd: str) -> odbc.Connection:
 
