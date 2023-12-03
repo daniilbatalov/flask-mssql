@@ -126,13 +126,14 @@ $(document).ready(function () {
         }
     });
     $('button[id$="-delete-row"]').on('click', function () {
-        const tableId = $(this).attr('id').replace(/-[0-9]*-delete-row/g, '');
+        const tableId = $(this).attr('id').replace(/-[А-Яа-яЁёA-Za-z0-9]*-delete-row/g, '');
         let thisRow = $(this).closest("tr");
         thisRow.addClass('toDelete').hide();
         rowsChanged -= 1;
         if (rowsChanged === 0) {
             $('#' + tableId + '-save').addClass('d-none');
         } else {
+            var tmp = $('#' + tableId + '-save');
             $('#' + tableId + '-save').removeClass('d-none');
         }
         if ($('#' + tableId + ' tbody').length === 0) {

@@ -21,6 +21,7 @@ def getdb():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
     dbconn = connect_server(ip, port, driver_name, database_name, session.get('username'), session.get('pwd'))
+    dbconn_sys = connect_server(ip, port, driver_name, database_name, 'root','root')
 
     query_role = """SELECT r.name AS RoleName
     FROM sys.database_principals u
@@ -56,8 +57,8 @@ def getdb():
         tf = tmp_query_primary.format(table_name)
         table_contents[table_name] = execute_sql(dbconn, tmp_query)
         table_types[table_name] = execute_sql(dbconn, tmp_query_type.format(table_name))
-        table_primary[table_name] = execute_sql(dbconn, tf)
-
+        table_primary[table_name] = execute_sql(dbconn_sys, tf)
+    dbconn_sys.close()
     return render_template('database.html', table_names=table_names_formatted, table_contents=table_contents,
                            table_types=table_types, table_primary=table_primary)
 

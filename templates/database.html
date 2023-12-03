@@ -40,10 +40,12 @@
                         <tr>
                             <th class="delete-row"></th>
                             {% for column_name in table_contents[table_name][0].cursor_description %}
-                                {% if column_name[0] == table_primary[table_name][0][0] %}
-                                    <th class="{{ table_types[table_name][loop.index0][0] }} primary">{{ column_name[0] }}</th>
-                                {% else %}
-                                    <th class="{{ table_types[table_name][loop.index0][0] }}">{{ column_name[0] }}</th>
+                                {% if table_primary[table_name]|length > 0 %}
+                                    {% if column_name[0] == table_primary[table_name][0][0] %}
+                                        <th class="{{ table_types[table_name][loop.index0][0] }} primary">{{ column_name[0] }}</th>
+                                    {% else %}
+                                        <th class="{{ table_types[table_name][loop.index0][0] }}">{{ column_name[0] }}</th>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
 
